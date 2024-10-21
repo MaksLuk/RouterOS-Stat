@@ -1,13 +1,13 @@
 ТЕСТ RouterOS_API_Stat
 ИНТЕРФЕЙСЫ:
-[{'name': 'ether1', 'type': 'ether', 'status': 'true', 'mtu': '1500', 'actual-mtu': '1500', 'mac-address': '54:05:AB:CD:12:31', 'last-link-up-time': '2024-10-19 16:49:26', 'sended-bytes': '216289', 'received-bytes': '46938', 'sended-packets': '1366', 'received-packets': '626'}, {'name': 'lo', 'type': 'loopback', 'status': 'true', 'mtu': '65536', 'actual-mtu': '65536', 'mac-address': '00:00:00:00:00:00', 'last-link-up-time': '2024-10-19 16:49:26', 'sended-bytes': '33372', 'received-bytes': '33372', 'sended-packets': '206', 'received-packets': '206'}]
+[{'name': 'ether1', 'type': 'ether', 'status': True, 'mtu': 1500, 'actual-mtu': 1500, 'mac-address': '54:05:AB:CD:12:31', 'last-link-up-time': '2024-10-21 06:57:26', 'sended-bytes': 62710, 'received-bytes': 15538, 'sended-packets': 402, 'received-packets': 200}, {'name': 'lo', 'type': 'loopback', 'status': True, 'mtu': 65536, 'actual-mtu': 65536, 'mac-address': '00:00:00:00:00:00', 'last-link-up-time': '2024-10-21 06:57:26', 'sended-bytes': 9072, 'received-bytes': 9072, 'sended-packets': 56, 'received-packets': 56}]
 ТРАФИК:
-{'name': 'ether1', 'rx-bits-per-second': '0', 'tx-bits-per-second': '0', 'rx-packets-per-second': '0', 'tx-packets-per-second': '0'}
-{'name': 'lo', 'rx-bits-per-second': '0', 'tx-bits-per-second': '0', 'rx-packets-per-second': '0', 'tx-packets-per-second': '0'}
+{'name': 'ether1', 'rx-bits-per-second': 0, 'tx-bits-per-second': 0, 'rx-packets-per-second': 0, 'tx-packets-per-second': 0}
+{'name': 'lo', 'rx-bits-per-second': 128, 'tx-bits-per-second': 128, 'rx-packets-per-second': 0, 'tx-packets-per-second': 0}
 
 ТЕСТ Laiartus_ROS_API_Stat
 ИНТЕРФЕЙСЫ:
-[{'name': 'ether1', 'type': 'ether', 'status': 'true', 'mtu': '1500', 'actual-mtu': '1500', 'mac-address': '54:05:AB:CD:12:31', 'last-link-up-time': '2024-10-19 16:49:26', 'sended-bytes': '216289', 'received-bytes': '46938', 'sended-packets': '1366', 'received-packets': '626'}, {'name': 'lo', 'type': 'loopback', 'status': 'true', 'mtu': '65536', 'actual-mtu': '65536', 'mac-address': '00:00:00:00:00:00', 'last-link-up-time': '2024-10-19 16:49:26', 'sended-bytes': '33372', 'received-bytes': '33372', 'sended-packets': '206', 'received-packets': '206'}]
+[{'name': 'ether1', 'type': 'ether', 'status': True, 'mtu': 1500, 'actual-mtu': 1500, 'mac-address': '54:05:AB:CD:12:31', 'last-link-up-time': '2024-10-21 06:57:26', 'sended-bytes': 62710, 'received-bytes': 15538, 'sended-packets': 402, 'received-packets': 200}, {'name': 'lo', 'type': 'loopback', 'status': True, 'mtu': 65536, 'actual-mtu': 65536, 'mac-address': '00:00:00:00:00:00', 'last-link-up-time': '2024-10-21 06:57:26', 'sended-bytes': 9072, 'received-bytes': 9072, 'sended-packets': 56, 'received-packets': 56}]
 ТРАФИК:
-{'name': 'ether1', 'rx-bits-per-second': '0', 'tx-bits-per-second': '0', 'rx-packets-per-second': '0', 'tx-packets-per-second': '0'}
-{'name': 'lo', 'rx-bits-per-second': '0', 'tx-bits-per-second': '0', 'rx-packets-per-second': '0', 'tx-packets-per-second': '0'}
+{'name': 'ether1', 'rx-bits-per-second': 0, 'tx-bits-per-second': 0, 'rx-packets-per-second': 0, 'tx-packets-per-second': 0}
+{'name': 'lo', 'rx-bits-per-second': 128, 'tx-bits-per-second': 128, 'rx-packets-per-second': 0, 'tx-packets-per-second': 0}
