@@ -1,26 +1,9 @@
 import abc
-from typing import TypedDict, List, Dict, Union
-
+from typing import TypeVar
 from routeros_api import RouterOsApiPool
 import ros_api
 
-
-class StatDict(TypedDict):
-    name: str
-    mac_address: str
-    type: str
-    status: bool
-    mtu: int
-    actual_mtu: int
-    last_link_up_time: int
-    sended_bytes: int
-    received_bytes: int
-    sended_packets: int
-    received_packets: int
-    tx_bits_per_second: int
-    rx_bits_per_second: int
-    tx_packets_per_second: int
-    rx_packets_per_second: int
+from utils.types import StatDict
 
 
 class Stat(abc.ABC):
@@ -28,7 +11,7 @@ class Stat(abc.ABC):
     @abc.abstractmethod
     def get_stat(
         cls, ip: str, port: int, username: str, password: str
-    ) -> List[ StatDict ]:
+    ) -> list[StatDict]:
         '''
         Возвращает данные об интерфейсах:
         - Название, тип, статус (работает ли)
@@ -41,7 +24,7 @@ class Stat(abc.ABC):
 
     @staticmethod
     def _create_interface_dict(
-        data: Dict[str, str], traffic_data: Dict[str, str]
+        data: dict[str, str], traffic_data: dict[str, str]
     ) -> StatDict:
         ''' Преобразует данные об интерфейсе в словарь StatDict '''
         result = {
@@ -64,11 +47,15 @@ class Stat(abc.ABC):
         return result
 
 
+# Тип определяет любой класс для подключения к роутеру
+RouterType = TypeVar('RouterType', bound=Stat)
+
+
 class RouterOsApiStat(Stat):
     @classmethod
     def get_stat(
         cls, ip: str, port: int, username: str, password: str
-    ) -> List[ StatDict ]:
+    ) -> list[StatDict]:
         connection = RouterOsApiPool(
             ip,
             username=username,
@@ -97,7 +84,7 @@ class LaiartusRosApiStat(Stat):
     @classmethod
     def get_stat(
         cls, ip: str, port: int, username: str, password: str
-    ) -> List[ StatDict ]:
+    ) -> list[StatDict]:
         router = ros_api.Api(ip, user=username, password=password, port=port)
 
         result = []
