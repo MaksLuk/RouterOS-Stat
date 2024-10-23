@@ -64,7 +64,7 @@ class Stat(abc.ABC):
         return result
 
 
-class RouterOS_API_Stat(Stat):
+class RouterOsApiStat(Stat):
     @classmethod
     def get_stat(
         cls, ip: str, port: int, username: str, password: str
@@ -93,7 +93,7 @@ class RouterOS_API_Stat(Stat):
         return result
 
 
-class Laiartus_ROS_API_Stat(Stat):
+class LaiartusRosApiStat(Stat):
     @classmethod
     def get_stat(
         cls, ip: str, port: int, username: str, password: str
@@ -114,11 +114,11 @@ class Laiartus_ROS_API_Stat(Stat):
 
 
 if __name__ == '__main__':
-    print('ТЕСТ RouterOS_API_Stat')
-    data1 = RouterOS_API_Stat.get_stat('localhost', 8728, 'admin', 'admin')
+    print('ТЕСТ RouterOsApiStat')
+    data1 = RouterOsApiStat.get_stat('localhost', 8728, 'admin', 'admin')
     print(data1)
 
-    print('ТЕСТ Laiartus_ROS_API_Stat')
-    data2 = Laiartus_ROS_API_Stat.get_stat('localhost', 8728, 'admin', 'admin')
+    print('ТЕСТ LaiartusRosApiStat')
+    data2 = LaiartusRosApiStat.get_stat('localhost', 8728, 'admin', 'admin')
     print(data2)
     
