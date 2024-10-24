@@ -1,9 +1,13 @@
 # Получение статистики из RouterOS
 
-Запуск:
-`python3 main.py routerosapi://admin:admin@localhost:8728 10s json://tests/main_test.json`
+### Запуск:
+`python3 main.py -a routerosapi://admin:admin@localhost:8728 --period=10s --db=json://tests/main_test_update.json`
+#### Аргументы командой строки:
+- `-a`, `--address` - адрес роутера в формате `протокол://логин:пароль@ip:порт`
+- `-p`, `--period` - период парсинга. `s` - секунда, `m` - минута, `h` - час, `d` - день
+- `-db`, `--db` - подключение к БД в формате `протокол://путь/до/файла.json`
 
-Файлы:
+### Файлы:
 - main.py - точка входа в проект
 - db.py - файл подключения к БД
 - router_os_stats.py - файл подключения к роутеру
@@ -12,5 +16,5 @@
 - tests - тесты
 
 
-Подводные камни:
+### Подводные камни:
 - rocketry не совместима с последней версией pydantic, нужен pydantic <= 1.10.13

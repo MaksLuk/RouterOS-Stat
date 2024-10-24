@@ -20,10 +20,7 @@ class StatDict(TypedDict):
     rx_packets_per_second: int
 
 
-class AddressDict(TypedDict):
-    ''' Тип данных для парсинга адреса роутера '''
-    protocol: str
-    username: str
-    password: str
-    url: str
-    port: int
+class JsonDatabaseStat(TypedDict):
+    ''' Тип данных для сохранения исторических данных в JSON-бд '''
+    timestamp: str
+    interfaces: list[StatDict]

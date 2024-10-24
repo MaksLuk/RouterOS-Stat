@@ -1,5 +1,4 @@
 import abc
-from typing import TypeVar
 from routeros_api import RouterOsApiPool
 import ros_api
 
@@ -45,10 +44,6 @@ class Stat(abc.ABC):
             'rx_packets_per_second': int(traffic_data['rx-packets-per-second']),
         }
         return result
-
-
-# Тип определяет любой класс для подключения к роутеру
-RouterType = TypeVar('RouterType', bound=Stat)
 
 
 class RouterOsApiStat(Stat):

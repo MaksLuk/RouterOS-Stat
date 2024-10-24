@@ -1,2 +1,3 @@
 router_os_text.txt - тест файла router_os_stats.py
-main_test.json - результат запуска main.pu
+main_test_update.json - результат запуска main.py в формате обновления данных
+main_test_historical.json - результат запуска main.py в формате записи исторических данных
