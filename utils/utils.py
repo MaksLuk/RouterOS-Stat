@@ -1,15 +1,15 @@
 import re
 import os.path
 import urllib
-from urllib.parse import ParseResult
 
 from router_os_stats import RouterOsApiStat
 from db import JsonDatabase, Database
+from utils.types import MyParseResult
 
 
 def parse_address_url_string(
         address: str
-    ) -> tuple[type[RouterOsApiStat], ParseResult]:
+    ) -> tuple[type[RouterOsApiStat], MyParseResult]:
     ''' 
     Принимает на вход строку формата protocol://username:password@url:port
     И возвращает объект роутера и словарь данных для подключения к нему
@@ -31,6 +31,13 @@ def parse_address_url_string(
         raise TypeError(
             'Указан некорректный протокол. Доступные протоколы: routerosapi'
         )
+    
+    address_object: MyParseResult = {
+        'hostname': address_object.hostname,
+        'port': address_object.port,
+        'username': address_object.username,
+        'password': address_object.password,
+    }
 
     return router_object, address_object
 

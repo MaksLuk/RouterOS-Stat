@@ -10,7 +10,14 @@ class Database(abc.ABC):
     @abc.abstractmethod
     def update_data(self, data: list[StatDict]) -> None:
         ''' Обновляет статистику роутера в БД '''
-        pass
+
+    @abc.abstractmethod
+    def read_data(self) -> list[StatDict]:
+        ''' Читает данные из БД '''
+
+    @abc.abstractmethod
+    def _save_data(self, data: list[StatDict]) -> None:
+        ''' Записывает данные в БД '''
 
 
 class JsonDatabase(Database):
@@ -27,7 +34,6 @@ class JsonDatabase(Database):
         self._save_data(data)
 
     def read_data(self) -> list[StatDict]:
-        ''' Читает данные из файла '''
         if os.path.exists(self.filename):
             with open(self.filename, 'r') as f:
                 data = json.load(f)
@@ -36,6 +42,5 @@ class JsonDatabase(Database):
         return data
 
     def _save_data(self, data: list[StatDict]) -> None:
-        ''' Читает данные в файл '''
         with open(self.filename, 'w') as f:
             json.dump(data, f)

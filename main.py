@@ -7,12 +7,10 @@ from rocketry.conds import every
 from fastapi import FastAPI
 import uvicorn
 
-from router_os_stats import Stat
-from db import Database
 from utils.utils import (
     parse_address_url_string, check_period_correct, get_database
 )
-from utils.types import MyParseResult, JsonResponse
+from utils.types import JsonResponse
 
 
 logging.basicConfig(
@@ -45,8 +43,8 @@ db = get_database(args.db)
 def write_data() -> None:
     try:
         stat = router.get_stat(
-            router_data.hostname, router_data.port,
-            router_data.username, router_data.password
+            router_data['hostname'], router_data['port'],
+            router_data['username'], router_data['password']
         )
         db.update_data(stat)
         logging.info('Данные записаны')

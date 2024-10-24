@@ -1,4 +1,3 @@
-from urllib.parse import ParseResult
 from typing import TypedDict
 
 
@@ -28,7 +27,7 @@ class JsonResponse(TypedDict):
     interfaces: list[StatDict]
 
 
-class MyParseResult(ParseResult):
+class MyParseResult(TypedDict):
     '''
     Нужен для соответствия типов у аргумента командной строки
     Убирает возможность None
