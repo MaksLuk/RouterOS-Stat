@@ -21,8 +21,18 @@ class StatDict(TypedDict):
     rx_packets_per_second: int
 
 
-# Нужен чтобы убрать None
+class JsonResponse(TypedDict):
+    ''' Тип данных для отправки ответа по API '''
+    success: bool
+    error: str|None
+    interfaces: list[StatDict]
+
+
 class MyParseResult(ParseResult):
+    '''
+    Нужен для соответствия типов у аргумента командной строки
+    Убирает возможность None
+    '''
     hostname: str
     port: int
     username: str

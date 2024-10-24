@@ -24,7 +24,7 @@ class JsonDatabase(Database):
                 if old_element['name'] == new_element['name']:
                     data[i] = new_element
                     break
-        self.save_data(data)
+        self._save_data(data)
 
     def read_data(self) -> list[StatDict]:
         ''' Читает данные из файла '''
@@ -35,7 +35,7 @@ class JsonDatabase(Database):
             data = []
         return data
 
-    def save_data(self, data: list[StatDict]) -> None:
+    def _save_data(self, data: list[StatDict]) -> None:
         ''' Читает данные в файл '''
         with open(self.filename, 'w') as f:
             json.dump(data, f)
