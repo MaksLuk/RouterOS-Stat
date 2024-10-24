@@ -26,7 +26,7 @@ class Stat(abc.ABC):
         data: dict[str, str], traffic_data: dict[str, str]
     ) -> StatDict:
         ''' Преобразует данные об интерфейсе в словарь StatDict '''
-        result = {
+        result: StatDict = {
             'name': data['name'],
             'mac_address': data['mac-address'],
             'type': data['type'],

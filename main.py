@@ -1,7 +1,6 @@
 import argparse
 from rocketry import Rocketry
 from rocketry.conds import every
-from urllib.parse import ParseResult
 import logging
 
 from router_os_stats import Stat
@@ -9,6 +8,7 @@ from db import Database
 from utils.utils import (
     parse_address_url_string, check_period_correct, get_database
 )
+from utils.types import MyParseResult
 
 
 parser = argparse.ArgumentParser(
@@ -24,7 +24,7 @@ app = Rocketry()
 
 
 def write_data(
-    router: Stat, router_data: ParseResult, db: Database
+    router: Stat, router_data: MyParseResult, db: Database
 ) -> None:
     try:
         stat = router.get_stat(

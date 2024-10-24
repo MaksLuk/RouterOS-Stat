@@ -1,3 +1,4 @@
+from urllib.parse import ParseResult
 from typing import TypedDict
 
 
@@ -9,7 +10,7 @@ class StatDict(TypedDict):
     status: bool
     mtu: int
     actual_mtu: int
-    last_link_up_time: int
+    last_link_up_time: str
     sended_bytes: int
     received_bytes: int
     sended_packets: int
@@ -20,7 +21,9 @@ class StatDict(TypedDict):
     rx_packets_per_second: int
 
 
-class JsonDatabaseStat(TypedDict):
-    ''' Тип данных для сохранения исторических данных в JSON-бд '''
-    timestamp: str
-    interfaces: list[StatDict]
+# Нужен чтобы убрать None
+class MyParseResult(ParseResult):
+    hostname: str
+    port: int
+    username: str
+    password: str

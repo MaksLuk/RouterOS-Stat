@@ -3,11 +3,13 @@ import os.path
 import urllib
 from urllib.parse import ParseResult
 
-from router_os_stats import Stat, RouterOsApiStat
+from router_os_stats import RouterOsApiStat
 from db import JsonDatabase, Database
 
 
-def parse_address_url_string(address: str) -> tuple[Stat, ParseResult]:
+def parse_address_url_string(
+        address: str
+    ) -> tuple[type[RouterOsApiStat], ParseResult]:
     ''' 
     Принимает на вход строку формата protocol://username:password@url:port
     И возвращает объект роутера и словарь данных для подключения к нему
@@ -17,22 +19,26 @@ def parse_address_url_string(address: str) -> tuple[Stat, ParseResult]:
         raise TypeError(
             'Не указан порт'
         )
+    if address_object.port is None:
+        raise TypeError(
+            'Не указан ip'
+        )
     
     if address_object.scheme == 'routerosapi':
         # не создаю объект, так как метод получения данных статический
-        db_object = RouterOsApiStat
+        router_object = RouterOsApiStat
     else:
         raise TypeError(
             'Указан некорректный протокол. Доступные протоколы: routerosapi'
         )
 
-    return db_object, address_object
+    return router_object, address_object
 
 
 def check_period_correct(period: str) -> bool:
     ''' Проверяет, корректно ли введён период, вызывает исключение если нет '''
     pattern = r'\d+[smhd]{1}$'
-    return re.match(pattern, period)
+    return bool(re.match(pattern, period))
 
 
 def get_database(db_string: str) -> Database:
@@ -43,6 +49,10 @@ def get_database(db_string: str) -> Database:
     db_data = urllib.parse.urlparse(db_string)
     if db_data.scheme == 'json':
         # в случае с json бд может не существовать, получаем путь до файла
+        if db_data.hostname is None:
+            raise TypeError('Указан некорректный путь до БД')
+        if db_data.path is None:
+            db_data.path = ''
         path = db_data.hostname + db_data.path
         db_path_dir = os.path.dirname(path)
         if not db_path_dir:
