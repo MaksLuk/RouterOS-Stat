@@ -5,6 +5,7 @@ import threading
 from rocketry import Rocketry
 from rocketry.conds import every
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from utils.utils import (
@@ -28,6 +29,20 @@ parser.add_argument('-db', '--db')
 
 rocketry_app = Rocketry()
 web_app = FastAPI()
+
+
+origins = [
+    'http://localhost:5173',
+    'localhost:5173'
+]
+
+web_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
 
 
 args = parser.parse_args()
