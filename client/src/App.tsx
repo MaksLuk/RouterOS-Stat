@@ -19,11 +19,7 @@ function App() {
     received_bytes: 0, received_packets: 0,
     tx_bits_per_second: 0, rx_bits_per_second: 0}]
   );
-  const [allTimeTx, setAllTimeTx] = useState([{x: '-', y: 0}]);
-  const [allTimeRx, setAllTimeRx] = useState([{x: '-', y: 0}]);
   const [allTimeBytes, setAllTimeBytes] = useState<boolean>(true);
-  const [txSpeed, setTxSpeed] = useState([{x: '-', y: 0}]);
-  const [rxSpeed, setRxSpeed] = useState([{x: '-', y: 0}]);
 
   const fetchData = async () => {
     const response = await fetch('http://0.0.0.0:8000/api/get_stat');
@@ -33,49 +29,35 @@ function App() {
     }
     else {
       setData(result.interfaces);
-      set_use_states(result.interfaces);
     }
   };
 
   const handleUpdateAllTimeBytes = (newState: boolean ) => {
     setAllTimeBytes(newState);
-    set_use_states(data);
   };
 
-  const set_use_states = (new_data: any[]) => {
-    setAllTimeTx(
-      new_data.map(
-        (item: { name: string; sended_bytes: number; sended_packets: number; }) => ({
-        x: item.name,
-        y: allTimeBytes ? item.sended_bytes : item.sended_packets
-      }))
-    );
-    setAllTimeRx(
-      new_data.map(
-        (item: { name: string; received_bytes: number; received_packets: number; }) => ({
-        x: item.name,
-        y: allTimeBytes ? item.received_bytes : item.received_packets
-      }))
-    );
-    setTxSpeed(
-      new_data.map((item: { name: string; tx_bits_per_second: number; }) => ({
-        x: item.name,
-        y: item.tx_bits_per_second
-      }))
-    );
-    setRxSpeed(
-      new_data.map((item: { name: string; rx_bits_per_second: number; }) => ({
-        x: item.name,
-        y: item.rx_bits_per_second
-      }))
-    );
-  };
-
-  useEffect(() => {
+  useEffect
+  (() => {
     fetchData();
     const intervalId = setInterval(fetchData, 3000);
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {}, [allTimeBytes]);
+
+  const getAllTimeTxData = () => {
+    return data.map((item) => ({
+      x: item.name,
+      y: allTimeBytes ? item.sended_bytes : item.sended_packets,
+    }));
+  };
+
+  const getAllTimeRxData = () => {
+    return data.map((item) => ({
+      x: item.name,
+      y: allTimeBytes ? item.received_bytes : item.received_packets,
+    }));
+  };
 
   return (
     <>
@@ -87,7 +69,7 @@ function App() {
               state={allTimeBytes}
               onUpdate={handleUpdateAllTimeBytes}
             />
-            <AllTimeStat allTimeTx={allTimeTx} allTimeRx={allTimeRx}/>
+            <AllTimeStat allTimeTx={getAllTimeTxData()} allTimeRx={getAllTimeRxData()}/>
           </div>
         </ToggleContent>
       </div>
@@ -99,39 +81,9 @@ function App() {
             <div className="row">
 
               <div className="col-md-4 col-lg-4 col-xs-12">
-                <VictoryChart domainPadding={40} theme={VictoryTheme.material}>
-                  <VictoryLabel
-                    text="Передача (Tx)"
-                    x={180}
-                    y={30}
-                    textAnchor="middle"
-                    style={{ fontSize: 20, fill: "black" }}
-                  />
-                  <VictoryAxis/>
-                  <VictoryAxis dependentAxis tickFormat={(x) => (`${x / 1000}k`)} />
-                  <VictoryBar
-                    data={txSpeed}
-                    labels={({ datum }) => `${datum.y}`}
-                  />
-                </VictoryChart>
               </div>
 
               <div className="col-md-4 col-lg-4 col-xs-12">
-                <VictoryChart domainPadding={40} theme={VictoryTheme.material}>
-                  <VictoryLabel
-                    text="Приём (Rx)"
-                    x={180}
-                    y={30}
-                    textAnchor="middle"
-                    style={{ fontSize: 20, fill: "black" }}
-                  />
-                  <VictoryAxis/>
-                  <VictoryAxis dependentAxis tickFormat={(x) => (`${x / 1000}k`)} />
-                  <VictoryBar
-                    data={rxSpeed}
-                    labels={({ datum }) => `${datum.y}`}
-                  />
-                </VictoryChart>
               </div>
 
             </div>

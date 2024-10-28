@@ -1,31 +1,17 @@
-import { useState } from 'react';
-
-type Props = {
-  state: boolean;
-  onUpdate: (newState: boolean) => void;
-}
-
-function BytesOrPacketsButtons(props: Props) {
-  const [state, setState] = useState<boolean>(props.state);
-
-  const handleClick = (newState: boolean) => {
-    setState(newState);
-    props.onUpdate(newState);
-  };
-
+function BytesOrPacketsButtons({state, onUpdate}) {
   return (
     <div className="btn-group" role="group" aria-label="Basic example">
       <button
         type="button"
         className={`btn btn- ${state === true ? 'active' : ''}`}
-        onClick={() => handleClick(true)}
+        onClick={() => onUpdate(true)}
       >
         Байты
       </button>
       <button
         type="button"
         className={`btn ${state === false ? 'active' : ''}`}
-        onClick={() => handleClick(false)}
+        onClick={() => onUpdate(false)}
       >
         Пакеты
       </button>
