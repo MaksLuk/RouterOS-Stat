@@ -1,25 +1,17 @@
 import { useState, useEffect } from 'react';
-import {
-  VictoryChart,
-  VictoryBar,
-  VictoryAxis,
-  VictoryTheme,
-  VictoryLabel
-} from 'victory';
 import ToggleContent from './components/ToggleContent.tsx';
 import BytesOrPacketsButtons from './components/BytesOrPacketsButtons.tsx';
 import AllTimeStat from './components/AllTimeStat.tsx';
+import SpeedStat from './components/SpeedStat.tsx';
+import InterfacesTable, { dataType } from './components/InterfacesTable.tsx';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
-  const [data, setData] = useState(
-    [{name: '-', sended_bytes: 0, sended_packets: 0,
-    received_bytes: 0, received_packets: 0,
-    tx_bits_per_second: 0, rx_bits_per_second: 0}]
-  );
+  const [data, setData] = useState<dataType[]>([]);
   const [allTimeBytes, setAllTimeBytes] = useState<boolean>(true);
+  const [speedBytes, setSpeedBytes] = useState<boolean>(true);
 
   const fetchData = async () => {
     const response = await fetch('http://0.0.0.0:8000/api/get_stat');
@@ -30,10 +22,6 @@ function App() {
     else {
       setData(result.interfaces);
     }
-  };
-
-  const handleUpdateAllTimeBytes = (newState: boolean ) => {
-    setAllTimeBytes(newState);
   };
 
   useEffect
@@ -59,6 +47,28 @@ function App() {
     }));
   };
 
+  const getSpeedTxData = () => {
+    return data.map((item) => ({
+      x: item.name,
+      y: speedBytes ? item.tx_bits_per_second : item.tx_packets_per_second,
+    }));
+  };
+
+  const getSpeedRxData = () => {
+    return data.map((item) => ({
+      x: item.name,
+      y: speedBytes ? item.rx_bits_per_second : item.rx_packets_per_second,
+    }));
+  };
+
+  const handleUpdateAllTimeBytes = (newState: boolean ) => {
+    setAllTimeBytes(newState);
+  };
+
+  const handleUpdateSppedBytes = (newState: boolean ) => {
+    setSpeedBytes(newState);
+  };
+
   return (
     <>
       <div className="block">
@@ -69,7 +79,7 @@ function App() {
               state={allTimeBytes}
               onUpdate={handleUpdateAllTimeBytes}
             />
-            <AllTimeStat allTimeTx={getAllTimeTxData()} allTimeRx={getAllTimeRxData()}/>
+            <AllTimeStat txData={getAllTimeTxData()} rxData={getAllTimeRxData()}/>
           </div>
         </ToggleContent>
       </div>
@@ -78,15 +88,11 @@ function App() {
         <h2>Скорость:</h2>
         <ToggleContent>
           <div className="container-fluid">
-            <div className="row">
-
-              <div className="col-md-4 col-lg-4 col-xs-12">
-              </div>
-
-              <div className="col-md-4 col-lg-4 col-xs-12">
-              </div>
-
-            </div>
+            <BytesOrPacketsButtons
+              state={speedBytes}
+              onUpdate={handleUpdateSppedBytes}
+            />
+            <SpeedStat txData={getSpeedTxData()} rxData={getSpeedRxData()} />
           </div>
         </ToggleContent>
       </div>
@@ -94,7 +100,7 @@ function App() {
       <div className="block">
         <h2>Интерфейсы</h2>
         <ToggleContent>
-          <p>здесь будет таблица</p>
+          <InterfacesTable data={data} />
         </ToggleContent>
       </div>
     </>
