@@ -13,3 +13,4 @@ logs
 */.venv
 *venv
 tests/*
+/tests/main_test_update.json

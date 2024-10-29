@@ -9,7 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from utils.utils import (
-    parse_address_url_string, check_period_correct, get_database
+    parse_address_url_string, check_period_correct,
+    get_database, check_server_port_correct
 )
 from utils.types import JsonResponse
 
@@ -26,6 +27,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('-a', '--address')
 parser.add_argument('-p', '--period')
 parser.add_argument('-db', '--db')
+parser.add_argument('-sp', '--serverport')
 
 rocketry_app = Rocketry()
 web_app = FastAPI()
@@ -50,6 +52,10 @@ router, router_data = parse_address_url_string(args.address)
 if not check_period_correct(args.period):
     raise TypeError(
         'Период должен соответствовать паттерну число[s|m|h|d]'
+    )
+if not check_server_port_correct(args.serverport):
+    raise TypeError(
+        'Указан неверный порт для веб-приложения'
     )
 db = get_database(args.db)
 
@@ -85,4 +91,4 @@ def get_stat() -> JsonResponse:
 
 if __name__ == '__main__':
     threading.Thread(target=rocketry_app.run).start()
-    uvicorn.run(web_app, host="0.0.0.0", port=8000)
+    uvicorn.run(web_app, host="0.0.0.0", port=int(args.serverport))

@@ -43,7 +43,7 @@ def parse_address_url_string(
 
 
 def check_period_correct(period: str) -> bool:
-    ''' Проверяет, корректно ли введён период, вызывает исключение если нет '''
+    ''' Проверяет, корректно ли введён период '''
     pattern = r'\d+[smhd]{1}$'
     return bool(re.match(pattern, period))
 
@@ -69,3 +69,8 @@ def get_database(db_string: str) -> Database:
         return JsonDatabase(path)
 
     raise TypeError('Указан некорректный протокол. Доступные протоколы: json')
+
+
+def check_server_port_correct(period: str) -> bool:
+    ''' Проверяет, корректно ли введён порт '''
+    return period.isdigit()
