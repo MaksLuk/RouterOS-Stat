@@ -3,7 +3,7 @@ import os.path
 import urllib
 
 from router_os_stats import RouterOsApiStat
-from db import JsonDatabase, Database
+from db import JsonDatabase, SQLDatabase, Database
 from utils.types import MyParseResult
 
 
@@ -67,8 +67,13 @@ def get_database(db_string: str) -> Database:
         if not os.path.exists(db_path_dir):
             raise TypeError('Указан некорректный путь до БД')
         return JsonDatabase(path)
-
-    raise TypeError('Указан некорректный протокол. Доступные протоколы: json')
+    else:
+        try:
+            return SQLDatabase(db_string)
+        except Exception as e:
+            raise TypeError(
+                f'Указан некорректный адрес базы данных. Ошибка: {e}'
+            )
 
 
 def check_server_port_correct(period: str) -> bool:

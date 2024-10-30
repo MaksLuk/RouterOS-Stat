@@ -1,4 +1,5 @@
 from typing import TypedDict
+from datetime import datetime
 
 
 class StatDict(TypedDict):
@@ -20,11 +21,41 @@ class StatDict(TypedDict):
     rx_packets_per_second: int
 
 
+class CurrentDataDict(TypedDict):
+    name: str
+    status: bool
+    actual_mtu: int
+    tx_bits_per_second: int
+    rx_bits_per_second: int
+    tx_packets_per_second: int
+    rx_packets_per_second: int
+
+
+class HistoricalDataDict(CurrentDataDict):
+    sended_bytes: int
+    received_bytes: int
+    sended_packets: int
+    received_packets: int
+
+
+class HistoricalData(TypedDict):
+    datetime: datetime
+    interfaces: list[HistoricalDataDict]
+
+
+class InterfacesData(TypedDict):
+    id: int
+    name: str
+    mac_address: str
+    type: str
+    mtu: int
+
+
 class JsonResponse(TypedDict):
     ''' Тип данных для отправки ответа по API '''
     success: bool
     error: str|None
-    interfaces: list[StatDict]
+    data: list[CurrentDataDict | HistoricalData | InterfacesData]
 
 
 class MyParseResult(TypedDict):

@@ -8,7 +8,7 @@ from router_os_stats import StatDict
 class JsonDatabase(Database):
     def __init__(self, filename: str) -> None:
         self.filename = filename
-    
+
     def update_data(self, new_data: list[StatDict]) -> None:
         data: list[StatDict] = self.read_data()
         for i, old_element in enumerate(data):
