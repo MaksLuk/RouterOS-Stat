@@ -127,7 +127,7 @@ class SQLDatabase():    # (Database):
                 Stat.sended_packets, Stat.received_packets,
                 Stat.tx_bits_per_second, Stat.rx_bits_per_second,
                 Stat.tx_packets_per_second, Stat.rx_packets_per_second
-            ).join(Interface)
+            ).join(Interface).where(start_datetime <= Stat.time <= end_datetime)
             data = session.exec(query)
 
         grouped_data = {}   # группировка по времени

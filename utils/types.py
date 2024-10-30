@@ -1,9 +1,10 @@
-from typing import TypedDict
+from typing import TypedDict, Optional
 from datetime import datetime
 
 
 class StatDict(TypedDict):
     ''' Тип данных для функции получения статистики с роутера '''
+    time: Optional[datetime]
     name: str
     mac_address: str
     type: str

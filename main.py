@@ -119,6 +119,12 @@ def get_historical_stat(
 @web_app.get('/api/get_interfaces')
 def get_interfaces() -> JsonResponse:
     data = db.get_interfaces()
+    if type(data) == dict and data.get('error'):
+        return {
+            'success': False,
+            'error': data['error'],
+            'data': []
+        }
     return {
         'success': True,
         'error': None,
