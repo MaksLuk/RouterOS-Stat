@@ -1,4 +1,4 @@
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, Any
 from datetime import datetime
 
 
@@ -56,7 +56,19 @@ class JsonResponse(TypedDict):
     ''' Тип данных для отправки ответа по API '''
     success: bool
     error: str|None
-    data: list[CurrentDataDict | HistoricalData | InterfacesData]
+    data: Any
+
+
+class CurrentStatResponse(JsonResponse):
+    data: list[CurrentDataDict]
+
+
+class HistoricalResponse(JsonResponse):
+    data: list[HistoricalData]
+
+
+class InterfacesResponse(JsonResponse):
+    data: list[InterfacesData]
 
 
 class MyParseResult(TypedDict):
