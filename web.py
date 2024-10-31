@@ -36,31 +36,8 @@ class WebApp(FastAPI):
         }
 
     def get_historical_stat(
-        self, start_time: str, end_time: str | datetime = datetime.now()
+        self, start_time: datetime, end_time: datetime = datetime.now()
     ) -> JsonResponse:
-        try:
-            if '.' in start_time:
-                start_time = start_time.split('.')[0]
-            start_time = datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%S')
-        except:
-            return {
-                'success': False,
-                'error': 'Неверно указана начальная дата. ' \
-                    'Используйте формат %Y-%m-%dT%H:%M:%S',
-                'data': []
-            }
-        if type(end_time) == str:
-            try:
-                if '.' in end_time:
-                    end_time = end_time.split('.')[0]
-                end_time = datetime.strptime(end_time, '%Y-%m-%dT%H:%M:%S')
-            except:
-                return {
-                    'success': False,
-                    'error': 'Неверно указана конечная дата. ' \
-                        'Используйте формат %Y-%m-%dT%H:%M:%S',
-                    'data': []
-                }
         data = self.db.get_data_in_period(start_time, end_time)
         return  {
             'success': True,
