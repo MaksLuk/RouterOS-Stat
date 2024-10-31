@@ -39,6 +39,8 @@ class WebApp(FastAPI):
         self, start_time: str, end_time: str | datetime = datetime.now()
     ) -> JsonResponse:
         try:
+            if '.' in start_time:
+                start_time = start_time.split('.')[0]
             start_time = datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%S')
         except:
             return {
@@ -49,7 +51,9 @@ class WebApp(FastAPI):
             }
         if type(end_time) == str:
             try:
-                start_time = datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%S')
+                if '.' in end_time:
+                    end_time = end_time.split('.')[0]
+                end_time = datetime.strptime(end_time, '%Y-%m-%dT%H:%M:%S')
             except:
                 return {
                     'success': False,
