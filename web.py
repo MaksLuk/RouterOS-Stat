@@ -32,8 +32,10 @@ class WebApp(FastAPI):
         return data
 
     def get_historical_stat(
-        self, start_time: datetime, end_time: datetime = datetime.now()
+        self, start_time: datetime, end_time: datetime | None = None
     ) -> list[HistoricalData]:
+        if end_time is None:
+            end_time = datetime.now()
         data = self.db.get_data_in_period(start_time, end_time)
         return data
 
