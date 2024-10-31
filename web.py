@@ -1,8 +1,8 @@
 from datetime import datetime
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from utils.types import CurrentStatResponse, HistoricalResponse, InterfacesResponse
+from utils.types import CurrentDataDict, HistoricalData, InterfacesData
 
 
 class WebApp(FastAPI):
@@ -27,34 +27,18 @@ class WebApp(FastAPI):
         self.app.add_api_route('/api/historical_stat', self.get_historical_stat)
         self.app.add_api_route('/api/interfaces', self.get_interfaces)
 
-    def get_current_stat(self) -> CurrentStatResponse:
+    def get_current_stat(self) -> list[CurrentDataDict]:
         data = self.db.get_current_data()
-        return {
-            'success': True,
-            'error': None,
-            'data': data
-        }
+        return data
 
     def get_historical_stat(
         self, start_time: datetime, end_time: datetime = datetime.now()
-    ) -> HistoricalResponse:
+    ) -> list[HistoricalData]:
         data = self.db.get_data_in_period(start_time, end_time)
-        return  {
-            'success': True,
-            'error': None,
-            'data': data
-        }
+        return data
 
-    def get_interfaces(self) -> InterfacesResponse:
+    def get_interfaces(self) -> list[InterfacesData]:
         data = self.db.get_interfaces()
         if type(data) == dict and data.get('error'):
-            return {
-                'success': False,
-                'error': data['error'],
-                'data': []
-            }
-        return {
-            'success': True,
-            'error': None,
-            'data': data
-        }
+            raise HTTPException(status_code=400, detail=data['error'])
+        return data
